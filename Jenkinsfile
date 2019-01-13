@@ -158,7 +158,7 @@ def release(branch) {
 //    sh "mvn versions:set -DnewVersion=\$(cat VERSION)"
   }
 
-  dir ('./charts/lightning-kube-bitcoind') {
+  if (kubeEnv?.trim() != 'local') {
     container('go') {
       sh "make tag"
     }
