@@ -72,7 +72,8 @@ spec:
         - name: data
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "bitcoind.fullname" .) }}
+#            claimName: {{ .Values.persistence.existingClaim | default (include "bitcoind.fullname" .) }}
+            claimName: {{ .Values.persistence.existingClaim | default (include "fullname" .) }}
         {{- else }}
           emptyDir: {}
         {{- end -}}
