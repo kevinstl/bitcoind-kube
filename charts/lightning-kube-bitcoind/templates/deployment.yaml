@@ -3,9 +3,12 @@ kind: Deployment
 metadata:
 #  name: {{ template "bitcoind.fullname" . }}
   name: {{ template "fullname" . }}
+  namespace: {{ .Values.project.namespace }}
   labels:
-    app: {{ template "bitcoind.name" . }}
-    chart: {{ template "bitcoind.chart" . }}
+#    app: {{ template "bitcoind.name" . }}
+    app: {{ template "fullname" . }}
+#    chart: {{ template "bitcoind.chart" . }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
@@ -13,12 +16,14 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app: {{ template "bitcoind.name" . }}
+#      app: {{ template "bitcoind.name" . }}
+      app: {{ template "fullname" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "bitcoind.name" . }}
+#        app: {{ template "bitcoind.name" . }}
+        app: {{ template "fullname" . }}
         release: {{ .Release.Name }}
     spec:
       {{- if .Values.configurationFile }}
@@ -61,7 +66,8 @@ spec:
           emptyDir: {}
         - name: configmap
           configMap:
-            name: {{ template "bitcoind.fullname" . }}
+#            name: {{ template "bitcoind.fullname" . }}
+            name: {{ template "fullname" . }}
         {{- end }}
         - name: data
         {{- if .Values.persistence.enabled }}
