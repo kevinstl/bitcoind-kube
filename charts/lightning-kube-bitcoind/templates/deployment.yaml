@@ -1,14 +1,10 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-#  name: {{ template "bitcoind.fullname" . }}
-  name: {{ template "fullname" . }}
-  namespace: {{ .Values.project.namespace }}
+  name: {{ template "bitcoind.fullname" . }}
   labels:
-#    app: {{ template "bitcoind.name" . }}
-    app: {{ template "fullname" . }}
-#    chart: {{ template "bitcoind.chart" . }}
-    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+    app: {{ template "bitcoind.name" . }}
+    chart: {{ template "bitcoind.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
@@ -16,14 +12,12 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-#      app: {{ template "bitcoind.name" . }}
-      app: {{ template "fullname" . }}
+      app: {{ template "bitcoind.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-#        app: {{ template "bitcoind.name" . }}
-        app: {{ template "fullname" . }}
+        app: {{ template "bitcoind.name" . }}
         release: {{ .Release.Name }}
     spec:
       {{- if .Values.configurationFile }}
@@ -66,14 +60,12 @@ spec:
           emptyDir: {}
         - name: configmap
           configMap:
-#            name: {{ template "bitcoind.fullname" . }}
-            name: {{ template "fullname" . }}
+            name: {{ template "bitcoind.fullname" . }}
         {{- end }}
         - name: data
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-#            claimName: {{ .Values.persistence.existingClaim | default (include "bitcoind.fullname" .) }}
-            claimName: {{ .Values.persistence.existingClaim | default (include "fullname" .) }}
+            claimName: {{ .Values.persistence.existingClaim | default (include "bitcoind.fullname" .) }}
         {{- else }}
           emptyDir: {}
         {{- end -}}
