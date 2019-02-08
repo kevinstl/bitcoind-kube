@@ -1,0 +1,157 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: {{ template "fullname" . }}
+  namespace: {{ .Values.project.namespace }}
+  labels:
+    draft: {{ default "draft-app" .Values.draft }}
+    chart: "{{ .Chart.Name }}-{{ .Chart.Version | replace "+" "_" }}"
+spec:
+  replicas: {{ .Values.replicaCount }}
+  template:
+    metadata:
+      labels:
+        draft: {{ default "draft-app" .Values.draft }}
+        app: {{ template "fullname" . }}
+{{- if .Values.podAnnotations }}
+      annotations:
+{{ toYaml .Values.podAnnotations | indent 8 }}
+{{- end }}
+    spec:
+
+
+#      securityContext:
+#        privileged: true
+#        runAsUser: 501
+
+
+      containers:
+      - name: {{ .Chart.Name }}
+
+        terminationMessagePath: "/mnt/lk/{{ .Values.project.network }}/bitcoind/log/{{ template "fullname" . }}.log"
+        terminationMessagePolicy: FallbackToLogsOnError
+
+#        securityContext:
+#          runAsUser: 501
+
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+
+        env:
+          - name: MINING_ADDRESS
+            valueFrom:
+              secretKeyRef:
+                name: lightning-kube-secrets
+                key: mining-address
+
+        env:
+          - name: NETWORK
+            value: {{ .Values.project.network }}
+
+#        ports:
+#        - containerPort: {{ .Values.service.internalPort }}
+
+#        livenessProbe:
+#          httpGet:
+#            path: {{ .Values.probePath }}
+#            port: {{ .Values.service.internalPort }}
+#          initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+#          periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+#          successThreshold: {{ .Values.livenessProbe.successThreshold }}
+#          timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+#        readinessProbe:
+#          httpGet:
+#            path: {{ .Values.probePath }}
+#            port: {{ .Values.service.internalPort }}
+#          periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+#          successThreshold: {{ .Values.readinessProbe.successThreshold }}
+#          timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+        resources:
+{{ toYaml .Values.resources | indent 12 }}
+
+#        volumeMounts:
+#        - mountPath: /mnt/lk/{{ .Values.project.network }}/shared/rpc
+#          name: lightning-kube-drive-shared-rpc
+#        - mountPath: /mnt/lk/{{ .Values.project.network }}/bitcoind/data
+#          name: lightning-kube-drive-bitcoind-data
+#        - mountPath: /mnt/lk/{{ .Values.project.network }}/bitcoind/log
+#          name: lightning-kube-drive-bitcoind-log
+#
+#      volumes:
+#      - name: lightning-kube-drive-shared-rpc
+#        hostPath:
+#          path: /host-home/minikube/lk/{{ .Values.project.network }}/shared/rpc
+#          type: DirectoryOrCreate
+#      - name: lightning-kube-drive-bitcoind-data
+#        hostPath:
+#          path: /host-home/minikube/lk/{{ .Values.project.network }}/bitcoind/data
+#          type: DirectoryOrCreate
+#      - name: lightning-kube-drive-bitcoind-log
+#        hostPath:
+#          path: /host-home/minikube/lk/{{ .Values.project.network }}/bitcoind/log
+#          type: DirectoryOrCreate
+
+
+#
+#      volumes:
+#      - name: lightning-kube-drive-shared-rpc
+#        hostPath:
+#          path: /network-drive/lk/{{ .Values.project.network }}/shared/rpc
+#          type: DirectoryOrCreate
+#      - name: lightning-kube-drive-bitcoind-data
+#        hostPath:
+#          path: /network-drive/lk/{{ .Values.project.network }}/bitcoind/data
+#          type: DirectoryOrCreate
+#      - name: lightning-kube-drive-bitcoind-log
+#        hostPath:
+#          path: /network-drive/lk/{{ .Values.project.network }}/bitcoind/log
+#          type: DirectoryOrCreate
+
+#      initContainers:
+#      - name: volume-mount-hack-umask
+#        image: busybox
+#        command: ["sh", "-c", "umask 000"]
+
+
+
+
+        volumeMounts:
+        - mountPath: /mnt/lk/{{ .Values.project.network }}/shared/rpc
+          name: lightning-kube-drive
+          subPath: lk/{{ .Values.project.network }}/shared/rpc
+        - mountPath: /mnt/lk/{{ .Values.project.network }}/bitcoind/data
+          name: lightning-kube-drive
+          subPath: lk/{{ .Values.project.network }}/bitcoind/data
+        - mountPath: /mnt/lk/{{ .Values.project.network }}/bitcoind/log
+          name: lightning-kube-drive
+          subPath: lk/{{ .Values.project.network }}/bitcoind/log
+
+#      volumes:
+#      - name: lightning-kube-drive
+#        hostPath:
+#          path: /host-home/minikube
+#          type: DirectoryOrCreate
+
+
+#      initContainers:
+#      - name: volume-mount-hack-chown
+#        image: busybox
+#        command: ["sh", "-c", "chown -R bitcoind /mnt/lk"]
+#      - name: volume-mount-hack-chmod
+#        image: busybox
+#        command: ["sh", "-c", "chmod -R 777 /mnt/lk"]
+
+
+#      volumes:
+#      - name: lightning-kube-drive
+#        hostPath:
+#          path: /network-drive/bitcoind
+#          type: DirectoryOrCreate
+
+
+      volumes:
+        - name: lightning-kube-drive
+          persistentVolumeClaim:
+            claimName: lightning-kube-pvc{{ .Values.project.networkSuffix }}
+
+      terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}

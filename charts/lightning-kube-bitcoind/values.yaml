@@ -1,34 +1,45 @@
-# Default values for Go projects.
+# Default values for bitcoind.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
-replicaCount: 1
+
 image:
-  repository: 10.99.211.147:5000/kevinstl/lightning-kube-bitcoind
-  tag: 0.0.4
+#  repository: arilot/docker-bitcoind
+  repository: 10.103.4.198:5000/kevinstl/lightning-kube-bitcoind
+#  tag: 0.15.1
+  tag: 0.0.1
   pullPolicy: IfNotPresent
+
 service:
-  name: lightning-kube-bitcoind
-  type: ClusterIP
-  externalPort: 80
-  internalPort: 8080
-  annotations:
-    fabric8.io/expose: "true"
-    fabric8.io/ingress.annotations: "kubernetes.io/ingress.class: nginx"
-resources:
-  limits:
-    cpu: 100m
-    memory: 256Mi
-  requests:
-    cpu: 80m
-    memory: 128Mi
-probePath: /
-livenessProbe:
-  initialDelaySeconds: 60
-  periodSeconds: 10
-  successThreshold: 1
-  timeoutSeconds: 1
-readinessProbe:
-  periodSeconds: 10
-  successThreshold: 1
-  timeoutSeconds: 1
-terminationGracePeriodSeconds: 10
+  rpcPort: 8332
+  p2pPort: 8333
+  testnetPort: 18332
+  testnetP2pPort: 18333
+
+persistence:
+  enabled: true
+  ## database data Persistent Volume Storage Class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  # storageClass: "-"
+  accessMode: ReadWriteOnce
+  size: 10Gi
+
+## Configure resource requests and limits
+## ref: http://kubernetes.io/docs/user-guide/compute-resources/
+##
+resources: {}
+#  requests:
+#    memory: 512Mi
+#    cpu: 300m
+
+# Custom bitcoind configuration file used to override default bitcoind settings
+configurationFile:
+  bitcoin.conf: |-
+    server=1
+    printtoconsole=1
+    rpcuser=rpcuser
+    rpcpassword=rpcpassword

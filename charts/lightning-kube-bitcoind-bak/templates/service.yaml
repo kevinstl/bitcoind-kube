@@ -14,10 +14,15 @@ metadata:
 {{- end }}
 spec:
   type: {{ .Values.service.type }}
+  externalTrafficPolicy: Local
   ports:
-  - port: {{ .Values.service.externalPort }}
-    targetPort: {{ .Values.service.internalPort }}
+  - port: 18555
+    targetPort: 18555
     protocol: TCP
     name: http
+  - port: 18556
+    targetPort: 18556
+    protocol: TCP
+    name: rpc
   selector:
     app: {{ template "fullname" . }}

@@ -7,6 +7,10 @@ pipeline {
     ORG               = 'kevinstl'
     APP_NAME          = 'lightning-kube-bitcoind'
     CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
+    DEPLOY_PVC        = 'false'
+    DEPLOY_SIMNET     = 'false'
+    DEPLOY_TESTNET    = 'true'
+    DEPLOY_MAINNET    = 'false'
   }
   stages {
 
@@ -104,9 +108,28 @@ pipeline {
       steps {
         script {
           if (kubeEnv?.trim() == 'local') {
-            container('go') {
-              sh './undeploy-helm.sh "" || true'
-              sh './deploy-helm.sh "" jx-local \$(cat VERSION) lightning-kube-bitcoind-local NodePort 30080'
+            sh 'echo  DEPLOY_PVC: ${DEPLOY_PVC}'
+            sh 'echo  DEPLOY_SIMNET: ${DEPLOY_SIMNET}'
+            sh 'echo  DEPLOY_TESTNET: ${DEPLOY_TESTNET}'
+            sh 'echo  DEPLOY_MAINNET: ${DEPLOY_MAINNET}'
+
+            if (DEPLOY_SIMNET == 'true') {
+              container('go') {
+                sh './undeploy-helm.sh "" lightning-kube simnet ${DEPLOY_PVC} || true'
+                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) lightning-kube-bitcoind-local LoadBalancer 30080 simnet ${DEPLOY_PVC}'
+              }
+            }
+            if (DEPLOY_TESTNET == 'true') {
+              container('go') {
+                sh './undeploy-helm.sh "" lightning-kube testnet ${DEPLOY_PVC} || true'
+                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) lightning-kube-bitcoind-local LoadBalancer 30080 testnet ${DEPLOY_PVC}'
+              }
+            }
+            if (DEPLOY_MAINNET == 'true') {
+              container('go') {
+                sh './undeploy-helm.sh "" lightning-kube mainnet ${DEPLOY_PVC} || true'
+                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) lightning-kube-bitcoind-local LoadBalancer 30080 mainnet ${DEPLOY_PVC}'
+              }
             }
           }
         }
@@ -158,9 +181,11 @@ def release(branch) {
 //    sh "mvn versions:set -DnewVersion=\$(cat VERSION)"
   }
 
-  if (kubeEnv?.trim() != 'local') {
-    container('go') {
-      sh "make tag"
+  dir ('./charts/lightning-kube-bitcoind') {
+    if (kubeEnv?.trim() != 'local') {
+      container('go') {
+        sh "make tag"
+      }
     }
   }
 

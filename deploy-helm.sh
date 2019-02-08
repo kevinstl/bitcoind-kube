@@ -6,6 +6,8 @@ imageTag=$3
 database=$4
 serviceType=$5
 nodePort=$6
+network=$7
+deployPvc=$8
 
 echo "context: ${context}"
 echo "namespace: ${namespace}"
@@ -13,6 +15,8 @@ echo "imageTag: ${imageTag}"
 echo "database: ${database}"
 echo "serviceType: ${serviceType}"
 echo "nodePort: ${nodePort}"
+echo "network: ${network}"
+echo "deployPvc: ${deployPvc}"
 
 
 kubeContextArg=""
@@ -21,10 +25,34 @@ then
     kubeContextArg="--kube-context ${context}"
 fi
 
+networkArg=""
+if [[ ${network} != "" ]]
+then
+    networkArg="--set project.network=${network}"
+fi
+
+networkSuffix=""
+if [[ ${network} != "" ]]
+then
+    networkSuffix="-${network}"
+fi
+
+networkSuffixArg=""
+if [[ ${network} != "" ]]
+then
+    networkSuffixArg="--set project.networkSuffix=${networkSuffix}"
+fi
+
 namespaceArg=""
 if [[ ${namespace} != "" ]]
 then
-    namespaceArg="--namespace ${namespace}"
+    namespaceArg="--namespace ${namespace}${networkSuffix}"
+fi
+
+namespaceValueArg=""
+if [[ ${namespace} != "" ]]
+then
+    namespaceValueArg="--set project.namespace=${namespace}${networkSuffix}"
 fi
 
 serviceTypeArg=""
@@ -39,8 +67,18 @@ then
     nodePortArg="--set service.nodePort=${nodePort}"
 fi
 
+#./undeploy-helm.sh "${context}" ${network}
 
-helm ${kubeContextArg} ${namespaceArg} install -n lightning-kube-bitcoind --set database=${database} ${serviceTypeArg} ${nodePortArg} --set image.tag=${imageTag} charts/lightning-kube-bitcoind
+kubectl create namespace ${namespace}${networkSuffix}
+
+if [[ ${deployPvc} == "true" ]]
+then
+    cd ./scripts
+    ./create-pv.sh  "${context}" "${namespace}${networkSuffix}" ${networkSuffix}
+    cd ..
+fi
+
+helm ${kubeContextArg} ${namespaceArg} install -n lightning-kube-bitcoind${networkSuffix} --set database=${database} ${namespaceValueArg} ${serviceTypeArg} ${nodePortArg} ${networkArg} ${networkSuffixArg} --set image.tag=${imageTag} charts/lightning-kube-bitcoind
 
 
 if [ $? -eq 0 ]
