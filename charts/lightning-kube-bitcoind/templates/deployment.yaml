@@ -36,7 +36,13 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           resources:
-  {{ toYaml .Values.resources | indent 10 }}
+#  {{ toYaml .Values.resources | indent 10 }}
+            limits:
+              cpu: 300m
+              memory: 512Mi
+            requests:
+              cpu: 300m
+              memory: 512Mi
           ports:
             - name: rpc
               containerPort: {{ .Values.service.rpcPort }}
