@@ -36,13 +36,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
           resources:
-#  {{ toYaml .Values.resources | indent 10 }}
-            limits:
-              cpu: 300m
-              memory: 512Mi
-            requests:
-              cpu: 300m
-              memory: 512Mi
+{{ toYaml .Values.resources | indent 12 }}
           ports:
             - name: rpc
               containerPort: {{ .Values.service.rpcPort }}
@@ -55,6 +49,8 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /bitcoin
+#              mountPath: /mnt/lk/{{ .Values.project.network }}/bitcoind/data
+#              subPath: lk/{{ .Values.project.network }}/bitcoind/data
             {{- if .Values.configurationFile }}
             - name: config
               mountPath: /bitcoin/.bitcoin/bitcoin.conf
@@ -71,7 +67,8 @@ spec:
         - name: data
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.persistence.existingClaim | default (include "bitcoind.fullname" .) }}
+#            claimName: {{ .Values.persistence.existingClaim | default (include "bitcoind.fullname" .) }}
+            claimName: lightning-kube-bitcoind-pvc{{ .Values.project.networkSuffix }}
         {{- else }}
           emptyDir: {}
         {{- end -}}

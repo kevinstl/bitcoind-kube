@@ -31,18 +31,17 @@ persistence:
 ## Configure resource requests and limits
 ## ref: http://kubernetes.io/docs/user-guide/compute-resources/
 ##
-
+#resources: {}
+resources:
 #  requests:
 #    memory: 512Mi
 #    cpu: 300m
-
-resources:
   limits:
     cpu: 300m
-    memory: 512Mi
+    memory: 1024Mi
   requests:
     cpu: 300m
-    memory: 512Mi
+    memory: 1024Mi
 
 # Custom bitcoind configuration file used to override default bitcoind settings
 configurationFile:
