@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#ex: ./deploy-helm.sh minikube lightning-kube 0.0.6 blah LoadBalancer 30080 testnet false
+
 context=$1
 namespace=$2
 imageTag=$3

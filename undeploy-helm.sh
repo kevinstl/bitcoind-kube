@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#ex: ./undeploy-helm.sh minikube lightning-kube-testnet testnet false
+
 context=$1
 namespace=$2
 network=$3
