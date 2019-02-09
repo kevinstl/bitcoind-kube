@@ -13,4 +13,5 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: "/mnt"
+    path: "/mnt/lk/bitcoind"
+    type: DirectoryOrCreate
