@@ -6,7 +6,7 @@ image:
 #  repository: arilot/docker-bitcoind
   repository: 10.103.4.198:5000/kevinstl/lightning-kube-bitcoind
 #  tag: 0.15.1
-  tag: 0.0.1
+  tag: 0.0.6
   pullPolicy: IfNotPresent
 
 service:
@@ -48,5 +48,6 @@ configurationFile:
   bitcoin.conf: |-
     server=1
     printtoconsole=1
-    rpcuser=rpcuser
-    rpcpassword=rpcpassword
+    rpcuser=devuser
+    rpcpassword=devpass
+    testnet=1
