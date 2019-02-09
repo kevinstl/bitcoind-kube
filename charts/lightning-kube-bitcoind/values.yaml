@@ -4,7 +4,7 @@
 
 image:
 #  repository: arilot/docker-bitcoind
-  repository: 10.103.4.198:5000/kevinstl/lightning-kube-bitcoind
+  repository: 10.104.188.17:5000/kevinstl/lightning-kube-bitcoind
 #  tag: 0.15.1
   tag: 0.0.6
   pullPolicy: IfNotPresent
