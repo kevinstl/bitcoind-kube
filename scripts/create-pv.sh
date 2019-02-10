@@ -1,5 +1,7 @@
 #!/bin/bash
 
+#ex: ./create-pv.sh minikube lightning-kube-testnet testnet
+
 context=$1
 namespace=$2
 networkSuffix=$3
