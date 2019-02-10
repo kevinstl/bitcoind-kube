@@ -24,6 +24,6 @@ spec:
 {{- end }}
 {{- end }}
 {{- end }}
-
-  hostPath:
-    path: "/mnt/bitcoind"
+#
+#  hostPath:
+#    path: "/mnt/bitcoind"
