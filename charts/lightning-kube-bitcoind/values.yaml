@@ -51,3 +51,4 @@ configurationFile:
     rpcuser=devuser_change
     rpcpassword=devpass_change
     testnet=1
+    datadir=/bitcoin/.bitcoin/data
