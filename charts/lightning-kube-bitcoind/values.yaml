@@ -48,6 +48,6 @@ configurationFile:
   bitcoin.conf: |-
     server=1
     printtoconsole=1
-    rpcuser=devuser
-    rpcpassword=devpass
+    rpcuser=devuser_change
+    rpcpassword=devpass_change
     testnet=1
