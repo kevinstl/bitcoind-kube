@@ -67,8 +67,8 @@ spec:
         - name: data
         {{- if .Values.persistence.enabled }}
           persistentVolumeClaim:
-#            claimName: {{ .Values.persistence.existingClaim | default (include "bitcoind.fullname" .) }}
-            claimName: lightning-kube-bitcoind-pvc{{ .Values.project.networkSuffix }}
+            claimName: {{ .Values.persistence.existingClaim | default (include "bitcoind.fullname" .) }}
+#            claimName: lightning-kube-bitcoind-pvc{{ .Values.project.networkSuffix }}
         {{- else }}
           emptyDir: {}
         {{- end -}}
