@@ -1,5 +1,7 @@
 FROM arilot/docker-bitcoind
 
+WORKDIR /opt/
+
 COPY docker/start-bitcoind.sh .
 
 RUN chmod +x start-bitcoind.sh
