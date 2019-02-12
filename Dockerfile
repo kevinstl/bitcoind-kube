@@ -14,6 +14,8 @@ RUN sed -i 's/^\(\[supervisord\]\)$/\1\nnodaemon=true/' /etc/supervisor/supervis
 COPY supervisor.conf /etc/supervisor/conf.d/programs.conf
 COPY docker/start-bitcoind.sh .
 
+RUN chmod +x start-bitcoind.sh
+
 # Add nginx config
 ADD nginx.conf /etc/nginx/nginx.conf
 RUN mkdir -p /root/.bitcoin && ln -s /etc/bitcoind/bitcoin.conf /root/.bitcoin/bitcoin.conf
