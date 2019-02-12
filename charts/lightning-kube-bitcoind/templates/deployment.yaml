@@ -48,12 +48,12 @@ spec:
               containerPort: {{ .Values.service.testnetP2pPort }}
           volumeMounts:
             - name: data
-              mountPath: /bitcoin/.bitcoin
+              mountPath: /bitcoin
 #              mountPath: /mnt/lk/{{ .Values.project.network }}/bitcoind/data
 #              subPath: lk/{{ .Values.project.network }}/bitcoind/data
             {{- if .Values.configurationFile }}
             - name: config
-              mountPath: /bitcoin/.bitcoin/bitcoin.conf
+              mountPath: /bitcoin/bitcoin.conf
               subPath: bitcoin.conf
             {{- end }}
       volumes:
