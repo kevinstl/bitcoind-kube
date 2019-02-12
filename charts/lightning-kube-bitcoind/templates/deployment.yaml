@@ -53,7 +53,7 @@ spec:
 #              subPath: lk/{{ .Values.project.network }}/bitcoind/data
             {{- if .Values.configurationFile }}
             - name: config
-              mountPath: /bitcoin/bitcoin.conf
+              mountPath: /bitcoin/.bitcoin/bitcoin.conf
               subPath: bitcoin.conf
             {{- end }}
       volumes:
