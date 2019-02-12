@@ -76,7 +76,7 @@ kubectl create namespace ${namespace}${networkSuffix}
 if [[ ${deployPvc} == "true" ]]
 then
     cd ./scripts
-    ./create-pv.sh  "${context}" "${namespace}${networkSuffix}" ${networkSuffix}
+    ./create-pv.sh  "${context}" "${namespace}${networkSuffix}" ${networkSuffix} ${network}
     cd ..
 fi
 

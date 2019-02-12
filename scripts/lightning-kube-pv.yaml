@@ -13,5 +13,5 @@ spec:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
   hostPath:
-    path: "/mnt/vda1/lk/bitcoind"
+    path: "/mnt/vda1/lk/bitcoind/X_NETWORK_X"
     type: DirectoryOrCreate

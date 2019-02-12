@@ -3,12 +3,14 @@
 context=$1
 namespace=$2
 networkSuffix=$3
+network=$4
 
 echo "delete-pv.sh"
 
 echo "context: ${context}"
 echo "namespace: ${namespace}"
 echo "networkSuffix: ${networkSuffix}"
+echo "network: ${network}"
 
 kubeContextArg=""
 if [[ ${context} != "" ]]
@@ -22,7 +24,7 @@ then
     namespaceArg="--namespace ${namespace}"
 fi
 
-cat ./lightning-kube-pvc.yaml | sed "s/\X_NETWORK_SUFFIX_X/${networkSuffix}/" | kubectl ${kubeContextArg} ${namespaceArg} delete -f -
+cat ./lightning-kube-pvc.yaml | sed "s/\X_NETWORK_SUFFIX_X/${networkSuffix}/" | sed "s/\X_NETWORK_X/${network}/" | kubectl ${kubeContextArg} ${namespaceArg} delete -f -
 cat ./lightning-kube-pv.yaml | sed "s/\X_NETWORK_SUFFIX_X/${networkSuffix}/" | kubectl ${kubeContextArg} ${namespaceArg} delete -f -
 
 #cat ./lightning-kube-bitcoind-pvc.yaml | sed "s/\X_NETWORK_SUFFIX_X/${networkSuffix}/" | kubectl ${kubeContextArg} ${namespaceArg} delete -f -
