@@ -52,3 +52,4 @@ configurationFile:
     rpcpassword=devpass_change
     testnet=1
 #    datadir=/bitcoin
+
