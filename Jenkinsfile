@@ -9,7 +9,8 @@ pipeline {
     CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
     DEPLOY_PVC        = 'false'
     DEPLOY_SIMNET     = 'false'
-    DEPLOY_TESTNET    = 'true'
+    DEPLOY_REGTEST    = 'true'
+    DEPLOY_TESTNET    = 'false'
     DEPLOY_MAINNET    = 'false'
   }
   stages {
@@ -110,6 +111,7 @@ pipeline {
           if (kubeEnv?.trim() == 'local') {
             sh 'echo  DEPLOY_PVC: ${DEPLOY_PVC}'
             sh 'echo  DEPLOY_SIMNET: ${DEPLOY_SIMNET}'
+            sh 'echo  DEPLOY_REGTEST: ${DEPLOY_REGTEST}'
             sh 'echo  DEPLOY_TESTNET: ${DEPLOY_TESTNET}'
             sh 'echo  DEPLOY_MAINNET: ${DEPLOY_MAINNET}'
 
@@ -117,6 +119,12 @@ pipeline {
               container('go') {
                 sh './undeploy-helm.sh "" lightning-kube simnet ${DEPLOY_PVC} || true'
                 sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) lightning-kube-bitcoind-local LoadBalancer 30080 simnet ${DEPLOY_PVC}'
+              }
+            }
+            if (DEPLOY_REGTEST == 'true') {
+              container('go') {
+                sh './undeploy-helm.sh "" lightning-kube simnet ${DEPLOY_PVC} || true'
+                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) lightning-kube-bitcoind-local LoadBalancer 30080 regtest ${DEPLOY_PVC}'
               }
             }
             if (DEPLOY_TESTNET == 'true') {
