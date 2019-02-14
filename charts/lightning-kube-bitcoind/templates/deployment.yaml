@@ -35,6 +35,11 @@ spec:
         - name: {{ template "bitcoind.fullname" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
+
+          preStop:
+            exec:
+              command: ["/usr/bin/bitcoin-cli","--conf=/bitcoin/.bitcoin/bitcoin.conf","stop"]
+
           resources:
 {{ toYaml .Values.resources | indent 12 }}
           ports:
@@ -56,9 +61,7 @@ spec:
               mountPath: /bitcoin/.bitcoin/bitcoin.conf
               subPath: bitcoin.conf
             {{- end }}
-          preStop:
-            exec:
-              command: ["/usr/bin/bitcoin-cli","--conf=/bitcoin/.bitcoin/bitcoin.conf","stop"]
+
       volumes:
         {{- if .Values.configurationFile }}
         - name: config
