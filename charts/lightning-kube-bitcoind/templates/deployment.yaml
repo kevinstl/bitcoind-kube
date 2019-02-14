@@ -36,9 +36,10 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
 
-          preStop:
-            exec:
-              command: ["/usr/bin/bitcoin-cli","--conf=/bitcoin/.bitcoin/bitcoin.conf","stop"]
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/usr/bin/bitcoin-cli","--conf=/bitcoin/.bitcoin/bitcoin.conf","stop"]
 
           resources:
 {{ toYaml .Values.resources | indent 12 }}
