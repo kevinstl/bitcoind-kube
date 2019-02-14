@@ -47,7 +47,6 @@ resources:
 configurationFile:
   bitcoin.conf: |-
     server=1
-#    printtoconsole=1
     rpcuser=devuser_change
     rpcpassword=devpass_change
     testnet=1
@@ -55,5 +54,6 @@ configurationFile:
     zmqpubrawblock=tcp://127.0.0.1:28332
     zmqpubrawtx=tcp://127.0.0.1:28333
     txindex=1
+#    printtoconsole=1
 #    datadir=/bitcoin
 
