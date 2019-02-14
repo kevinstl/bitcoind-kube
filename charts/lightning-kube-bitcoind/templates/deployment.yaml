@@ -56,6 +56,9 @@ spec:
               mountPath: /bitcoin/.bitcoin/bitcoin.conf
               subPath: bitcoin.conf
             {{- end }}
+          preStop:
+            exec:
+              command: ["/usr/bin/bitcoin-cli","--conf=/bitcoin/.bitcoin/bitcoin.conf","stop"]
       volumes:
         {{- if .Values.configurationFile }}
         - name: config
