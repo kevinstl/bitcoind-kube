@@ -115,6 +115,8 @@ pipeline {
             sh 'echo  DEPLOY_TESTNET: ${DEPLOY_TESTNET}'
             sh 'echo  DEPLOY_MAINNET: ${DEPLOY_MAINNET}'
 
+            REPOSITORY = '10.104.188.17:5000/kevinstl/lightning-kube-bitcoind'
+
             if (DEPLOY_SIMNET == 'true') {
               container('go') {
                 sh './undeploy-helm.sh "" lightning-kube simnet ${DEPLOY_PVC} || true'
@@ -124,7 +126,7 @@ pipeline {
             if (DEPLOY_REGTEST == 'true') {
               container('go') {
                 sh './undeploy-helm.sh "" lightning-kube regtest ${DEPLOY_PVC} || true'
-                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) lightning-kube-bitcoind-local LoadBalancer 30080 regtest ${DEPLOY_PVC} 96Mi'
+                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) lightning-kube-bitcoind-local LoadBalancer 30080 regtest ${DEPLOY_PVC} 96Mi ${REPOSITORY}'
               }
             }
             if (DEPLOY_TESTNET == 'true') {
@@ -190,11 +192,11 @@ def release(branch) {
   }
 
   dir ('./charts/lightning-kube-bitcoind') {
-    if (kubeEnv?.trim() != 'local') {
+//    if (kubeEnv?.trim() != 'local') {
       container('go') {
         sh "make tag"
       }
-    }
+//    }
   }
 
   container('go') {
