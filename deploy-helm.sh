@@ -10,7 +10,7 @@ serviceType=$5
 nodePort=$6
 network=$7
 deployPvc=$8
-memory=$8
+memory=$9
 
 echo "context: ${context}"
 echo "namespace: ${namespace}"
