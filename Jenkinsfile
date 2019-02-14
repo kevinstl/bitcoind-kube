@@ -123,7 +123,7 @@ pipeline {
             }
             if (DEPLOY_REGTEST == 'true') {
               container('go') {
-                sh './undeploy-helm.sh "" lightning-kube simnet ${DEPLOY_PVC} || true'
+                sh './undeploy-helm.sh "" lightning-kube regtest ${DEPLOY_PVC} || true'
                 sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) lightning-kube-bitcoind-local LoadBalancer 30080 regtest ${DEPLOY_PVC}'
               }
             }
