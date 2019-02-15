@@ -11,7 +11,6 @@ nodePort=$6
 network=$7
 deployPvc=$8
 memory=$9
-repository=${10}
 
 echo "context: ${context}"
 echo "namespace: ${namespace}"
@@ -22,7 +21,6 @@ echo "nodePort: ${nodePort}"
 echo "network: ${network}"
 echo "deployPvc: ${deployPvc}"
 echo "memory: ${memory}"
-echo "repository: ${repository}"
 
 
 kubeContextArg=""
@@ -90,13 +88,8 @@ then
     memoryArg="--set resources.limits.memory=${memory} --set resources.requests.memory=${memory}"
 fi
 
-repositoryArg=""
-if [[ ${repository} != "" ]]
-then
-    repositoryArg="--set image.repository=${repository}${networkSuffix}"
-fi
 
-helm ${kubeContextArg} ${namespaceArg} install -n lightning-kube-bitcoind${networkSuffix} --set database=${database} ${namespaceValueArg} ${serviceTypeArg} ${nodePortArg} ${networkArg} ${networkSuffixArg} ${memoryArg} ${repositoryArg} --set image.tag=${imageTag} charts/lightning-kube-bitcoind
+helm ${kubeContextArg} ${namespaceArg} install -n lightning-kube-bitcoind${networkSuffix} --set database=${database} ${namespaceValueArg} ${serviceTypeArg} ${nodePortArg} ${networkArg} ${networkSuffixArg} ${memoryArg} --set image.tag=${network}-${imageTag} charts/lightning-kube-bitcoind
 
 
 if [ $? -eq 0 ]

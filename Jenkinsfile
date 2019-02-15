@@ -12,7 +12,6 @@ pipeline {
     DEPLOY_REGTEST    = 'true'
     DEPLOY_TESTNET    = 'false'
     DEPLOY_MAINNET    = 'false'
-    REPOSITORY        = '10.104.188.17:5000/kevinstl/lightning-kube-bitcoind'
   }
   stages {
 
@@ -125,7 +124,7 @@ pipeline {
             if (DEPLOY_REGTEST == 'true') {
               container('go') {
                 sh './undeploy-helm.sh "" lightning-kube regtest ${DEPLOY_PVC} || true'
-                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) lightning-kube-bitcoind-local LoadBalancer 30080 regtest ${DEPLOY_PVC} 96Mi ${REPOSITORY}'
+                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) lightning-kube-bitcoind-local LoadBalancer 30080 regtest ${DEPLOY_PVC} 96Mi'
               }
             }
             if (DEPLOY_TESTNET == 'true') {
