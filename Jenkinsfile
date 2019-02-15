@@ -12,6 +12,7 @@ pipeline {
     DEPLOY_REGTEST    = 'true'
     DEPLOY_TESTNET    = 'false'
     DEPLOY_MAINNET    = 'false'
+    REPOSITORY        = '10.104.188.17:5000/kevinstl/lightning-kube-bitcoind'
   }
   stages {
 
@@ -114,8 +115,6 @@ pipeline {
             sh 'echo  DEPLOY_REGTEST: ${DEPLOY_REGTEST}'
             sh 'echo  DEPLOY_TESTNET: ${DEPLOY_TESTNET}'
             sh 'echo  DEPLOY_MAINNET: ${DEPLOY_MAINNET}'
-
-            REPOSITORY = '10.104.188.17:5000/kevinstl/lightning-kube-bitcoind'
 
             if (DEPLOY_SIMNET == 'true') {
               container('go') {
