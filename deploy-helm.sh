@@ -11,7 +11,7 @@ nodePort=$6
 network=$7
 deployPvc=$8
 memory=$9
-repository=$10
+repository=${10}
 
 echo "context: ${context}"
 echo "namespace: ${namespace}"
