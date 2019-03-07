@@ -80,7 +80,7 @@ then
     cd ..
 fi
 
-helm ${kubeContextArg} ${namespaceArg} install -n lightning-kube${networkSuffix} --set database=${database} ${namespaceValueArg} ${serviceTypeArg} ${nodePortArg} ${networkArg} ${networkSuffixArg} --set image.tag=${imageTag} charts/bitcoind-kube
+helm ${kubeContextArg} ${namespaceArg} install -n bitcoind-kube${networkSuffix} --set database=${database} ${namespaceValueArg} ${serviceTypeArg} ${nodePortArg} ${networkArg} ${networkSuffixArg} --set image.tag=${imageTag} charts/bitcoind-kube
 
 
 if [ $? -eq 0 ]
