@@ -1,10 +1,12 @@
 # Lightning Kube bitcoind
 
-Lightning Kube bitcoind provides a simple way to deploy a full bitcoin node with bitcoind into Kubernetes.           
+Bitcoind Kube provides a simple way to deploy a full bitcoin node with bitcoind into Kubernetes.           
 
-[<img src="https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png" width="100px">](https://kubernetes.io/docs/home "Kubernetes")  [<img src="https://avatars3.githubusercontent.com/u/10235229?s=200&v=4" width="100px">](https://github.com/btcsuite/bitcoind "bitcoind")  [<img src="https://jenkins.io/images/logos/jenkins-x/jenkins-x-256.png" width="100px">](https://jenkins-x.io "Jenkins X")
+[<img src="https://raw.githubusercontent.com/kubernetes/kubernetes/master/logo/logo.png" width="100px">](https://kubernetes.io/docs/home "Kubernetes")  [<img src="https://avatars2.githubusercontent.com/u/528860?s=200&v=4" width="100px">](https://github.com/bitcoin "bitcoind")  [<img src="https://jenkins.io/images/logos/jenkins-x/jenkins-x-256.png" width="100px">](https://jenkins-x.io "Jenkins X")
 
-This project is confirmed to work for simnet on a minikube instance. **It has not been tested or hardened for security on testnet or mainnet.**
+Credit to the [Bitcoin Helm Chart](https://github.com/helm/charts/tree/master/stable/bitcoind) and [docker-bitcoind](https://github.com/kylemanna/docker-bitcoind) for providing all of the groundwork to this project.
+
+This project is confirmed to work for simnet and testnet on a minikube instance. **It has not been tested or hardened for security on mainnet.**
 
 This project implements a full bitcoin node running in Kubernetes using https://github.com/btcsuite/bitcoind deployed by Jenkins X. 
 
