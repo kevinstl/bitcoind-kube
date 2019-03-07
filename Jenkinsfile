@@ -112,6 +112,44 @@ pipeline {
       }
     }
 
+    stage('Deploy Local Regtest') {
+      when {
+//        branch 'feature-*'
+        anyOf { branch 'master'; branch 'feature-*' }
+      }
+      environment {
+        DEPLOY_NAMESPACE = "lightning-kube-regtest"
+      }
+      steps {
+        script {
+          if (kubeEnv?.trim() == 'local') {
+            if (DEPLOY_SIMNET == 'true') {
+              deployLocal("regtest")
+            }
+          }
+        }
+      }
+    }
+
+    stage('Deploy Local Testnet') {
+      when {
+//        branch 'feature-*'
+        anyOf { branch 'master'; branch 'feature-*' }
+      }
+      environment {
+        DEPLOY_NAMESPACE = "lightning-kube-testnet"
+      }
+      steps {
+        script {
+          if (kubeEnv?.trim() == 'local') {
+            if (DEPLOY_SIMNET == 'true') {
+              deployLocal("testnet")
+            }
+          }
+        }
+      }
+    }
+
 
 
     stage('Deploy Local Mainnet') {
