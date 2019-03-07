@@ -7,6 +7,7 @@ pipeline {
     ORG               = 'kevinstl'
     APP_NAME          = 'bitcoind-kube'
     CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
+    NEW_VERSION_LOCAL = 'true'
     DEPLOY_PVC        = 'true'
     DEPLOY_SIMNET     = 'true'
     DEPLOY_TESTNET    = 'false'
