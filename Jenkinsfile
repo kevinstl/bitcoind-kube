@@ -301,7 +301,7 @@ def release(branch) {
 
 def promote() {
 
-  dir ('./charts/btcd-kube') {
+  dir ('./charts/bitcoind-kube') {
 
     if (DEPLOY_SIMNET == 'true') {
       promoteNetwork("simnet", "5Gi")
@@ -351,7 +351,7 @@ def deployLocal(network) {
   script {
 
     if (NEW_VERSION_LOCAL == 'true') {
-      dir('./charts/btcd-kube') {
+      dir('./charts/bitcoind-kube') {
         container('go') {
           sh 'jx step helm release'
         }
@@ -368,7 +368,7 @@ def deployLocal(network) {
         sh 'cat ./env/requirements.yaml'
         sh 'git fetch'
         sh "git checkout local"
-        sh "./scripts/replace-version.sh ./env/requirements.yaml \"btcd-kube\" \"  version: \$(cat ../VERSION)\""
+        sh "./scripts/replace-version.sh ./env/requirements.yaml \"bitcoind-kube\" \"  version: \$(cat ../VERSION)\""
         sh 'git add .'
         sh 'git commit -m \"release \$(cat ../VERSION)\"'
         sh 'git push -u origin local'
