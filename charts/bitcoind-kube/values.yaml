@@ -4,7 +4,7 @@
 
 image:
 #  repository: arilot/docker-bitcoind
-  repository: 10.104.188.17:5000/kevinstl/lightning-kube-bitcoind
+  repository: 10.102.128.249:5000/kevinstl/bitcoind-kube
 #  tag: 0.15.1
   tag: 0.0.6
   pullPolicy: IfNotPresent
@@ -62,3 +62,8 @@ configurationFile:
 #    printtoconsole=1
 #    datadir=/bitcoin
 
+project:    #TODO: Should clean this up. Remove redundancy of network & networkSuffix
+  namespace: lightning-kube-simnet
+  network: simnet
+  networkSuffix: -simnet
+  storage: 25Gi

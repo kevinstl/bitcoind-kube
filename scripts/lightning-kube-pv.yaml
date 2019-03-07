@@ -1,13 +1,13 @@
 kind: PersistentVolume
 apiVersion: v1
 metadata:
-  name: lightning-kube-bitcoind-pvX_NETWORK_SUFFIX_X
+  name: bitcoind-kube-pvX_NETWORK_SUFFIX_X
   labels:
     type: local
 spec:
   storageClassName: standard
   capacity:
-    storage: 25Gi
+    storage: 5Gi
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce

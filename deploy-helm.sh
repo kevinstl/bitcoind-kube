@@ -90,6 +90,7 @@ fi
 
 
 helm ${kubeContextArg} ${namespaceArg} install -n lightning-kube-bitcoind${networkSuffix} --set database=${database} ${namespaceValueArg} ${serviceTypeArg} ${nodePortArg} ${networkArg} ${networkSuffixArg} ${memoryArg} --set image.tag=${imageTag} charts/lightning-kube-bitcoind
+helm ${kubeContextArg} ${namespaceArg} install -n bitcoind-kube${networkSuffix} --set database=${database} ${namespaceValueArg} ${serviceTypeArg} ${nodePortArg} ${networkArg} ${networkSuffixArg} --set image.tag=${imageTag} charts/bitcoind-kube
 
 
 if [ $? -eq 0 ]

@@ -69,7 +69,7 @@ fi
 # Add user parameters to command.
 PARAMS="$PARAMS $@"
 
-bitcoindHostName="lightning-kube-bitcoind.lightning-kube-$NETWORK"
+bitcoindHostName="bitcoind-kube.lightning-kube-$NETWORK"
 bitcoindServiceIp=`ping ${bitcoindHostName} -c1 | head -1 | grep -Eo '[0-9.]{4,}'`
 
 echo "bitcoindServiceIp: ${bitcoindServiceIp}"
