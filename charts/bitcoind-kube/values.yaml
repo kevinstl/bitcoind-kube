@@ -53,3 +53,8 @@ configurationFile:
     testnet=1
 #    datadir=/bitcoin
 
+project:    #TODO: Should clean this up. Remove redundancy of network & networkSuffix
+  namespace: lightning-kube-simnet
+  network: simnet
+  networkSuffix: -simnet
+  storage: 25Gi
