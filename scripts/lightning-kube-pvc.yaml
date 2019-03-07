@@ -1,7 +1,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: lightning-kube-bitcoind-pvcX_NETWORK_SUFFIX_X
+  name: bitcoind-kube-pvcX_NETWORK_SUFFIX_X
 spec:
   accessModes:
     - ReadWriteOnce
@@ -10,4 +10,4 @@ spec:
     requests:
       storage: 25Gi
   storageClassName: standard
-  volumeName: lightning-kube-bitcoind-pvX_NETWORK_SUFFIX_X
+  volumeName: bitcoind-kube-pvX_NETWORK_SUFFIX_X

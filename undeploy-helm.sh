@@ -30,7 +30,7 @@ then
     namespaceValueArg="--set project.namespace=${namespace}${networkSuffix}"
 fi
 
-helm ${kubeContextArg} del --purge lightning-kube-bitcoind${networkSuffix}
+helm ${kubeContextArg} del --purge bitcoind-kube${networkSuffix}
 
 if [[ ${deployPvc} == "true" ]]
 then

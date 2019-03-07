@@ -23,8 +23,8 @@ Requirments:
 ```
 *See [Lightning Kube](https://github.com/kevinstl/lightning-kube) for help with requirements.
 
-3. Clone this project. `git clone https://github.com/kevinstl/lightning-kube-bitcoind ~/Developer/projects/lightning-kube-bitcoind`
-4. Change to project directory `cd ~/Developer/projects/lightning-kube-bitcoind`
+3. Clone this project. `git clone https://github.com/kevinstl/bitcoind-kube ~/Developer/projects/bitcoind-kube`
+4. Change to project directory `cd ~/Developer/projects/bitcoind-kube`
 5. Import this project into your Jenkins X instance. `jx import`
 
 If the installation is successful you should see the bitcoind pod running from [kubernetes dashboard](http://minikube-easy:30000/#!/pod?namespace=lightning-kube).

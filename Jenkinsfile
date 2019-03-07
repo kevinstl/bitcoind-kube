@@ -5,7 +5,7 @@ pipeline {
   }
   environment {
     ORG               = 'kevinstl'
-    APP_NAME          = 'lightning-kube-bitcoind'
+    APP_NAME          = 'bitcoind-kube'
     CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
     DEPLOY_PVC        = 'true'
     DEPLOY_SIMNET     = 'true'
@@ -116,19 +116,19 @@ pipeline {
             if (DEPLOY_SIMNET == 'true') {
               container('go') {
                 sh './undeploy-helm.sh "" lightning-kube simnet ${DEPLOY_PVC} || true'
-                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) lightning-kube-bitcoind-local LoadBalancer 30080 simnet ${DEPLOY_PVC}'
+                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) bitcoind-kube-local LoadBalancer 30080 simnet ${DEPLOY_PVC}'
               }
             }
             if (DEPLOY_TESTNET == 'true') {
               container('go') {
                 sh './undeploy-helm.sh "" lightning-kube testnet ${DEPLOY_PVC} || true'
-                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) lightning-kube-bitcoind-local LoadBalancer 30080 testnet ${DEPLOY_PVC}'
+                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) bitcoind-kube-local LoadBalancer 30080 testnet ${DEPLOY_PVC}'
               }
             }
             if (DEPLOY_MAINNET == 'true') {
               container('go') {
                 sh './undeploy-helm.sh "" lightning-kube mainnet ${DEPLOY_PVC} || true'
-                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) lightning-kube-bitcoind-local LoadBalancer 30080 mainnet ${DEPLOY_PVC}'
+                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) bitcoind-kube-local LoadBalancer 30080 mainnet ${DEPLOY_PVC}'
               }
             }
           }
@@ -181,7 +181,7 @@ def release(branch) {
 //    sh "mvn versions:set -DnewVersion=\$(cat VERSION)"
   }
 
-  dir ('./charts/lightning-kube-bitcoind') {
+  dir ('./charts/bitcoind-kube') {
     if (kubeEnv?.trim() != 'local') {
       container('go') {
         sh "make tag"
@@ -214,7 +214,7 @@ def release(branch) {
 
 def promote() {
 
-  dir ('./charts/lightning-kube-bitcoind') {
+  dir ('./charts/bitcoind-kube') {
     container('go') {
       sh 'jx step changelog --version v\$(cat ../../VERSION)'
 

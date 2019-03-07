@@ -4,7 +4,7 @@ branch=$1
 
 if [[ ! -z ${KUBE_ENV} ]]
 then
-    git config remote.origin.url https://github.com/kevinstl/lightning-kube-bitcoind.git
+    git config remote.origin.url https://github.com/kevinstl/bitcoind-kube.git
     git config --global credential.helper store
     jx step git credentials
 
