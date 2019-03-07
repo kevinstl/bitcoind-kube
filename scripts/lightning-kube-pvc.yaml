@@ -8,6 +8,6 @@ spec:
   volumeMode: Filesystem
   resources:
     requests:
-      storage: 25Gi
+      storage: 5Gi
   storageClassName: standard
   volumeName: bitcoind-kube-pvX_NETWORK_SUFFIX_X

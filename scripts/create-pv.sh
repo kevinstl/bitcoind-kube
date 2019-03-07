@@ -32,3 +32,4 @@ cat ./lightning-kube-pvc.yaml | sed "s/\X_NETWORK_SUFFIX_X/${networkSuffix}/" | 
 
 #cat ./bitcoind-kube-pvc.yaml | sed "s/\X_NETWORK_SUFFIX_X/${networkSuffix}/" | kubectl ${kubeContextArg} ${namespaceArg} create -f -
 
+#./create-pv.sh "" lightning-kube-simnet -simnet simnet
