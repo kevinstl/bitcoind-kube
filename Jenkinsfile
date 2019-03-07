@@ -8,7 +8,7 @@ pipeline {
     APP_NAME          = 'bitcoind-kube'
     CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
     NEW_VERSION_LOCAL = 'true'
-    DEPLOY_PVC        = 'true'
+    DEPLOY_PVC        = 'false'
     DEPLOY_SIMNET     = 'true'
     DEPLOY_TESTNET    = 'false'
     DEPLOY_MAINNET    = 'false'
@@ -247,12 +247,14 @@ def release(branch) {
     sh "jx step git credentials"
 
     // so we can retrieve the version in later steps
-    sh "echo \$(jx-release-version) > VERSION"
+    if (kubeEnv?.trim() != 'local' || NEW_VERSION_LOCAL == 'true') {
+      sh "echo \$(jx-release-version) > VERSION"
+    }
 //    sh "mvn versions:set -DnewVersion=\$(cat VERSION)"
   }
 
   dir ('./charts/bitcoind-kube') {
-    if (kubeEnv?.trim() != 'local') {
+    if (kubeEnv?.trim() != 'local' || NEW_VERSION_LOCAL == 'true') {
       container('go') {
         sh "make tag"
       }
@@ -370,19 +372,25 @@ def deployLocal(network) {
         sh "git checkout local"
         sh "./scripts/replace-version.sh ./env/requirements.yaml \"bitcoind-kube\" \"  version: \$(cat ../VERSION)\""
         sh 'git add .'
-        sh 'git commit -m \"release \$(cat ../VERSION)\"'
-        sh 'git push -u origin local'
+        sh 'echo debug1'
+        sh 'git commit -m \"release \$(cat ../VERSION)\" || true'
+        sh 'echo debug2'
+        sh 'git push -u origin local || true'
+        sh 'echo debug3'
       }
     }
 
     def envProjectSubDir = "./environment-jx-lightning-kube-${network}/env"
     dir(envProjectSubDir) {
       container('go') {
+        sh 'echo debug4'
         sh 'pwd'
         sh 'ls -al'
         sh 'cat ./requirements.yaml'
         sh 'jx step helm build'
+        sh 'echo debug5'
         sh 'jx step helm apply --wait=false'
+        sh 'echo debug6'
       }
     }
   }
