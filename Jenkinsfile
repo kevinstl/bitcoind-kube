@@ -91,9 +91,65 @@ pipeline {
       }
     }
 
-    stage('Promote to Environments Master') {
+    stage('Deploy Local Simnet') {
       when {
-        branch 'master'
+//        branch 'feature-*'
+        anyOf { branch 'master'; branch 'feature-*' }
+      }
+      environment {
+        DEPLOY_NAMESPACE = "lightning-kube-simnet"
+      }
+      steps {
+        script {
+          if (kubeEnv?.trim() == 'local') {
+            if (DEPLOY_SIMNET == 'true') {
+              deployLocal("simnet")
+            }
+          }
+        }
+      }
+    }
+
+    stage('Deploy Local Testnet') {
+      when {
+        anyOf { branch 'master'; branch 'feature-*' }
+      }
+      environment {
+        DEPLOY_NAMESPACE = "lightning-kube-testnet"
+      }
+      steps {
+        script {
+          if (kubeEnv?.trim() == 'local') {
+            if (DEPLOY_TESTNET == 'true') {
+              deployLocal("testnet")
+            }
+          }
+        }
+      }
+    }
+
+    stage('Deploy Local Mainnet') {
+      when {
+        anyOf { branch 'master'; branch 'feature-*' }
+      }
+      environment {
+        DEPLOY_NAMESPACE = "lightning-kube-mainnet"
+      }
+      steps {
+        script {
+          if (kubeEnv?.trim() == 'local') {
+            if (DEPLOY_MAINNET == 'true') {
+              deployLocal("mainnet")
+            }
+          }
+        }
+      }
+    }
+
+
+    stage('Promote to Environments') {
+      when {
+        anyOf { branch 'master'; branch 'feature-*' }
       }
       steps {
         script {
@@ -104,37 +160,50 @@ pipeline {
       }
     }
 
-    stage('Deploy Local') {
-      steps {
-        script {
-          if (kubeEnv?.trim() == 'local') {
-            sh 'echo  DEPLOY_PVC: ${DEPLOY_PVC}'
-            sh 'echo  DEPLOY_SIMNET: ${DEPLOY_SIMNET}'
-            sh 'echo  DEPLOY_TESTNET: ${DEPLOY_TESTNET}'
-            sh 'echo  DEPLOY_MAINNET: ${DEPLOY_MAINNET}'
-
-            if (DEPLOY_SIMNET == 'true') {
-              container('go') {
-                sh './undeploy-helm.sh "" lightning-kube simnet ${DEPLOY_PVC} || true'
-                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) bitcoind-kube-local LoadBalancer 30080 simnet ${DEPLOY_PVC}'
-              }
-            }
-            if (DEPLOY_TESTNET == 'true') {
-              container('go') {
-                sh './undeploy-helm.sh "" lightning-kube testnet ${DEPLOY_PVC} || true'
-                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) bitcoind-kube-local LoadBalancer 30080 testnet ${DEPLOY_PVC}'
-              }
-            }
-            if (DEPLOY_MAINNET == 'true') {
-              container('go') {
-                sh './undeploy-helm.sh "" lightning-kube mainnet ${DEPLOY_PVC} || true'
-                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) bitcoind-kube-local LoadBalancer 30080 mainnet ${DEPLOY_PVC}'
-              }
-            }
-          }
-        }
-      }
-    }
+//    stage('Promote to Environments Master') {
+//      when {
+//        branch 'master'
+//      }
+//      steps {
+//        script {
+//          if (kubeEnv?.trim() != 'local') {
+//            promote()
+//          }
+//        }
+//      }
+//    }
+//
+//    stage('Deploy Local') {
+//      steps {
+//        script {
+//          if (kubeEnv?.trim() == 'local') {
+//            sh 'echo  DEPLOY_PVC: ${DEPLOY_PVC}'
+//            sh 'echo  DEPLOY_SIMNET: ${DEPLOY_SIMNET}'
+//            sh 'echo  DEPLOY_TESTNET: ${DEPLOY_TESTNET}'
+//            sh 'echo  DEPLOY_MAINNET: ${DEPLOY_MAINNET}'
+//
+//            if (DEPLOY_SIMNET == 'true') {
+//              container('go') {
+//                sh './undeploy-helm.sh "" lightning-kube simnet ${DEPLOY_PVC} || true'
+//                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) bitcoind-kube-local LoadBalancer 30080 simnet ${DEPLOY_PVC}'
+//              }
+//            }
+//            if (DEPLOY_TESTNET == 'true') {
+//              container('go') {
+//                sh './undeploy-helm.sh "" lightning-kube testnet ${DEPLOY_PVC} || true'
+//                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) bitcoind-kube-local LoadBalancer 30080 testnet ${DEPLOY_PVC}'
+//              }
+//            }
+//            if (DEPLOY_MAINNET == 'true') {
+//              container('go') {
+//                sh './undeploy-helm.sh "" lightning-kube mainnet ${DEPLOY_PVC} || true'
+//                sh './deploy-helm.sh "" lightning-kube \$(cat VERSION) bitcoind-kube-local LoadBalancer 30080 mainnet ${DEPLOY_PVC}'
+//              }
+//            }
+//          }
+//        }
+//      }
+//    }
 
     stage('Push Local') {
       steps {
@@ -212,21 +281,60 @@ def release(branch) {
 
 }
 
+//def promote() {
+//
+//  dir ('./charts/bitcoind-kube') {
+//    container('go') {
+//      sh 'jx step changelog --version v\$(cat ../../VERSION)'
+//
+//      // release the helm chart
+//      sh 'jx step helm release'
+//
+//      // promote through all 'Auto' promotion Environments
+//      sh 'jx promote --verbose -b --all-auto --timeout 1h --version \$(cat ../../VERSION)'
+//    }
+//  }
+//
+//}
+
+
 def promote() {
 
-  dir ('./charts/bitcoind-kube') {
-    container('go') {
-      sh 'jx step changelog --version v\$(cat ../../VERSION)'
+  dir ('./charts/btcd-kube') {
 
-      // release the helm chart
-      sh 'jx step helm release'
+    if (DEPLOY_SIMNET == 'true') {
+      promoteNetwork("simnet", "5Gi")
+    }
 
-      // promote through all 'Auto' promotion Environments
-      sh 'jx promote --verbose -b --all-auto --timeout 1h --version \$(cat ../../VERSION)'
+    if (DEPLOY_TESTNET == 'true') {
+      promoteNetwork("testnet", "25Gi")
+    }
+
+    if (DEPLOY_MAINNET == 'true') {
+      promoteNetwork("mainnet", "275Gi")
     }
   }
 
 }
+
+def promoteNetwork(network, storage) {
+  if (DEPLOY_PVC == 'true') {
+    container('go') {
+      sh "./scripts/create-pv.sh \"\" lightning-kube-${network} -${network} ${storage}"
+    }
+  }
+
+  container('go') {
+    sh 'jx step changelog --version v\$(cat ../../VERSION)'
+    // release the helm chart
+    sh 'jx step helm release'
+    // promote through all 'Auto' promotion Environments
+    def promoteCommand = "jx promote --verbose -b --env lightning-kube-${network} --timeout 1h --version \$(cat ../../VERSION)"
+//    sh "jx promote --verbose -b --env lightning-kube-${network} --timeout 1h --version \$(cat ../../VERSION)"
+    sh "${promoteCommand}"
+  }
+}
+
 
 def postBuild() {
   script {
@@ -237,3 +345,44 @@ def postBuild() {
 }
 
 
+def deployLocal(network) {
+
+  script {
+
+    if (NEW_VERSION_LOCAL == 'true') {
+      dir('./charts/btcd-kube') {
+        container('go') {
+          sh 'jx step helm release'
+        }
+      }
+    }
+
+    sh 'pwd'
+    sh 'ls -al'
+    sh "git clone https://github.com/kevinstl/environment-jx-lightning-kube-${network}.git"
+
+    def envProjectDir = "./environment-jx-lightning-kube-${network}"
+    dir(envProjectDir) {
+      container('go') {
+        sh 'cat ./env/requirements.yaml'
+        sh 'git fetch'
+        sh "git checkout local"
+        sh "./scripts/replace-version.sh ./env/requirements.yaml \"btcd-kube\" \"  version: \$(cat ../VERSION)\""
+        sh 'git add .'
+        sh 'git commit -m \"release \$(cat ../VERSION)\"'
+        sh 'git push -u origin local'
+      }
+    }
+
+    def envProjectSubDir = "./environment-jx-lightning-kube-${network}/env"
+    dir(envProjectSubDir) {
+      container('go') {
+        sh 'pwd'
+        sh 'ls -al'
+        sh 'cat ./requirements.yaml'
+        sh 'jx step helm build'
+        sh 'jx step helm apply --wait=false'
+      }
+    }
+  }
+}
