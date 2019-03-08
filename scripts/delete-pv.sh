@@ -37,3 +37,4 @@ fi
 
 
 #./delete-pv.sh "" lightning-kube-simnet -simnet simnet gke
+#./delete-pv.sh "" lightning-kube-regtest -regtest regtest gke
