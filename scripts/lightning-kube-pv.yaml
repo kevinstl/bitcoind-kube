@@ -7,7 +7,8 @@ metadata:
 spec:
   storageClassName: standard
   capacity:
-    storage: 5Gi
+#    storage: 5Gi
+    storage: X_STORAGE_X
   volumeMode: Filesystem
   accessModes:
     - ReadWriteOnce

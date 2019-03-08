@@ -80,19 +80,6 @@ pipeline {
       }
     }
 
-    stage('Promote to Environments Feature') {
-      when {
-        branch 'feature-*'
-      }
-      steps {
-        script {
-          if (kubeEnv?.trim() != 'local') {
-            promote()
-          }
-        }
-      }
-    }
-
     stage('Deploy Local Simnet') {
       when {
 //        branch 'feature-*'
@@ -288,7 +275,7 @@ def promote() {
 def promoteNetwork(network, storage) {
   if (DEPLOY_PVC == 'true') {
     container('go') {
-      sh "./scripts/create-pv.sh \"\" lightning-kube-${network} -${network} ${storage}"
+      sh "./scripts/create-pv.sh \"\" lightning-kube-${network} -${network} ${network} ${storage} gke"
     }
   }
 

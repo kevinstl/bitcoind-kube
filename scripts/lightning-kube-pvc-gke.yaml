@@ -11,4 +11,4 @@ spec:
 #      storage: 5Gi
       storage: X_STORAGE_X
   storageClassName: standard
-  volumeName: bitcoind-kube-pvX_NETWORK_SUFFIX_X
+#  volumeName: bitcoind-kube-pvX_NETWORK_SUFFIX_X
