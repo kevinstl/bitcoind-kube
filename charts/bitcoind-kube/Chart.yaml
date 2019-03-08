@@ -16,8 +16,8 @@ sources:
   - https://github.com/kuberstack/bitcoind
   - https://github.com/kylemanna/docker-bitcoind
 maintainers:
-name: bitcoind-kube
+  - name: daniel-yavorovich
     email: daniel@arilot.com
-name: bitcoind-kube
+  - name: govale
     email: shiyanval@gmail.com
 engine: gotpl
