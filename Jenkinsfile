@@ -270,6 +270,10 @@ def promote() {
       promoteNetwork("simnet", "5Gi")
     }
 
+    if (DEPLOY_REGTEST == 'true') {
+      promoteNetwork("regtest", "5Gi")
+    }
+
     if (DEPLOY_TESTNET == 'true') {
       promoteNetwork("testnet", "25Gi")
     }
