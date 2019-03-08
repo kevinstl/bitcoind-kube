@@ -110,7 +110,7 @@ pipeline {
       steps {
         script {
           if (kubeEnv?.trim() == 'local') {
-            if (DEPLOY_SIMNET == 'true') {
+            if (DEPLOY_REGTEST == 'true') {
               deployLocal("regtest")
             }
           }
