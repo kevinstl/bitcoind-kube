@@ -1,7 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
+
+{{- if .Values.service.name }}
+  name: {{ .Values.service.name }}
+{{- else }}
   name: {{ template "bitcoind.fullname" . }}
+{{- end }}
+
+#  name: {{ template "bitcoind.fullname" . }}
   labels:
     app: {{ template "bitcoind.name" . }}
     chart: {{ template "bitcoind.chart" . }}

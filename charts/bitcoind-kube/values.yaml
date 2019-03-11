@@ -10,6 +10,7 @@ image:
   pullPolicy: IfNotPresent
 
 service:
+  name: bitcoind-kube
   rpcPort: 8332
   p2pPort: 8333
   testnetPort: 18332
