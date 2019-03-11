@@ -26,9 +26,9 @@ spec:
       port: {{ .Values.service.testnetPort }}
     - name: testnet-p2p
       port: {{ .Values.service.testnetP2pPort }}
-    - name: zmqpubrawblockPort
+    - name: zmqpubrawblock-port
       port: {{ .Values.service.zmqpubrawblockPort }}
-    - name: zmqpubrawtxPort
+    - name: zmqpubrawtx-port
       port: {{ .Values.service.zmqpubrawtxPort }}
   selector:
     app: {{ template "bitcoind.name" . }}

@@ -52,9 +52,9 @@ spec:
               containerPort: {{ .Values.service.testnetPort }}
             - name: testnetp2pport
               containerPort: {{ .Values.service.testnetP2pPort }}
-            - name: zmqpubrawblockPort
+            - name: zmqpubrawblock-port
               containerPort: {{ .Values.service.zmqpubrawblockPort }}
-            - name: zmqpubrawtxPort
+            - name: zmqpubrawtx-port
               containerPort: {{ .Values.service.zmqpubrawtxPort }}
           volumeMounts:
             - name: data
