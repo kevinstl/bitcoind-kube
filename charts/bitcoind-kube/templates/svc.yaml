@@ -26,6 +26,10 @@ spec:
       port: {{ .Values.service.testnetPort }}
     - name: testnet-p2p
       port: {{ .Values.service.testnetP2pPort }}
+    - name: regtest
+      port: {{ .Values.service.regtestPort }}
+    - name: regtest-p2p
+      port: {{ .Values.service.regtestP2pPort }}
     - name: zmqpubrawblock
       port: {{ .Values.service.zmqpubrawblockPort }}
     - name: zmqpubrawtx

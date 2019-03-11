@@ -52,6 +52,10 @@ spec:
               containerPort: {{ .Values.service.testnetPort }}
             - name: testnetp2pport
               containerPort: {{ .Values.service.testnetP2pPort }}
+            - name: regtest
+              containerPort: {{ .Values.service.regtestPort }}
+            - name: regtestp2pport
+              containerPort: {{ .Values.service.regtestP2pPort }}
             - name: zmqpubrawblock
               containerPort: {{ .Values.service.zmqpubrawblockPort }}
             - name: zmqpubrawtx
