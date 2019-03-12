@@ -9,8 +9,12 @@ RUN apt-get update
 
 RUN apt-get install -y wget python
 
+RUN pwd
+RUN ls -al
+
 RUN wget https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py
 
+RUN ls -al
 
 
 
