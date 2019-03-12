@@ -30,7 +30,7 @@ spec:
             - name: config
               mountPath: /bitcoin/.bitcoin/
           command: ['sh', '-c', 'cp /configmap/bitcoin.conf /bitcoin/.bitcoin/bitcoin.conf']
-        - name: copy-bitcoind-config
+        - name: setup-rpc
           image: busybox
           command: ['sh', '-c', '/tmp/setup-rpc.sh']
       {{- end }}

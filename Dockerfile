@@ -7,7 +7,7 @@ FROM arilot/docker-bitcoind
 
 RUN apt-get update
 
-RUN apt-get install -y wget python
+RUN apt-get install -y python3-pip
 
 #RUN pwd
 RUN ls -al /tmp
