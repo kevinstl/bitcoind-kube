@@ -1,15 +1,6 @@
 #!/usr/bin/env bash
 
-# exit from script if error was raised.
-set -e
+/tmp/setup-rpc.sh | grep rpcauth >> /bitcoin/.bitcoin/bitcoin.conf
 
-#cat ./lightning-kube-pv.yaml | sed "s/\X_NETWORK_SUFFIX_X/${networkSuffix}/" | kubectl ${kubeContextArg} ${namespaceArg} create -f -
+docker-entrypoint.sh btc_oneshot
 
-#"supervisord", "-c", "/etc/supervisor/supervisord.conf"
-
-supervisord -c /etc/supervisor/supervisord.conf
-
-#echo "supervisord.conf: "
-#cat /etc/supervisor/supervisord.conf | sed "s/\X_NETWORK_X/${NETWORK}/"
-
-#cat /etc/supervisor/supervisord.conf | sed "s/\X_NETWORK_X/${NETWORK}/" | supervisord -c -

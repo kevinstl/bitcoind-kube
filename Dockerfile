@@ -24,10 +24,18 @@ RUN ls -al /tmp
 
 
 
+#COPY docker-entrypoint.sh /usr/local/bin/
+#ENTRYPOINT ["docker-entrypoint.sh"]
+#
+#CMD ["btc_oneshot"]
+
 
 #WORKDIR /opt/
 #
-#COPY docker/start-bitcoind.sh .
+COPY docker/start-bitcoind.sh /usr/local/bin/
+
+CMD ["./start-bitcoind.sh"]
+
 #
 #RUN chmod +x start-bitcoind.sh
 #
