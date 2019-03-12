@@ -30,9 +30,9 @@ spec:
             - name: config
               mountPath: /bitcoin/.bitcoin/
           command: ['sh', '-c', 'cp /configmap/bitcoin.conf /bitcoin/.bitcoin/bitcoin.conf']
-        - name: setup-rpc
-          image: busybox
-          command: ['sh', '-c', '/tmp/setup-rpc.sh']
+#        - name: setup-rpc
+#          image: busybox
+#          command: ['sh', '-c', '/tmp/setup-rpc.sh']
       {{- end }}
       containers:
         - name: {{ template "bitcoind.fullname" . }}

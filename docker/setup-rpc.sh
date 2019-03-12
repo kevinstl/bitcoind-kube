@@ -1,6 +1,6 @@
 #!/bin/bash
 
-python /tmp/rpcauth.py ${RPCUSER} ${RPCPASSWORD}
+/tmp/rpcauth.py ${RPCUSER} ${RPCPASSWORD}
 
 
 
