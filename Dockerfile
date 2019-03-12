@@ -12,7 +12,7 @@ RUN apt-get install -y wget python
 RUN pwd
 RUN ls -al
 
-ADD https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py /bitcoin/.bitcoind/shared
+ADD https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py /bitcoin/.bitcoind/shared/
 
 RUN chmod 755 rpcauth.py
 
