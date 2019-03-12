@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 
 /tmp/setup-rpc.sh | grep rpcauth >> /bitcoin/.bitcoin/bitcoin.conf
 
