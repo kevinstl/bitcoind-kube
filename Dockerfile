@@ -12,11 +12,11 @@ RUN apt-get install -y wget python
 #RUN pwd
 RUN ls -al /tmp
 
-ADD https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py /tmp/
+#ADD https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py /tmp/
 
-RUN chmod 755 /tmp/rpcauth.py
+#RUN chmod 755 /tmp/rpcauth.py
 
-#COPY docker/rpcauth.py /bitcoin/.bitcoin/shared/
+COPY docker/rpcauth.py /tmp/
 
 RUN ls -al /tmp
 
