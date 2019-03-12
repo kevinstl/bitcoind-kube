@@ -52,13 +52,14 @@ resources:
 configurationFile:
   bitcoin.conf: |-
     server=1
-    rpcuser=devuser_change
-    rpcpassword=devpass_change
     testnet=1
     zmqpubrawblock=tcp://0.0.0.0:28332
     zmqpubrawtx=tcp://0.0.0.0:28333
     txindex=1
 
+
+#    rpcuser=devuser_change
+#    rpcpassword=devpass_change
 
 #    zmqpubrawblock=tcp://127.0.0.1:28332
 #    zmqpubrawtx=tcp://127.0.0.1:28333

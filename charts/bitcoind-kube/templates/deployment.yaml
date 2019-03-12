@@ -36,6 +36,18 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy | quote }}
 
+          env:
+            - name: RPCUSER
+              valueFrom:
+                secretKeyRef:
+                  name: lightning-kube-secrets
+                  key: rpcuser
+            - name: RPCPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: lightning-kube-secrets
+                  key: rpcpass
+
           lifecycle:
             preStop:
               exec:
