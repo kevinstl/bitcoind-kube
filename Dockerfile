@@ -17,6 +17,7 @@ RUN ls -al /tmp
 #RUN chmod 755 /tmp/rpcauth.py
 
 COPY docker/rpcauth.py /tmp/
+COPY docker/setup-rpc.sh /tmp/
 
 RUN ls -al /tmp
 

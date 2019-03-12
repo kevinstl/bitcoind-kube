@@ -24,12 +24,15 @@ spec:
       initContainers:
         - name: copy-bitcoind-config
           image: busybox
-          command: ['sh', '-c', 'cp /configmap/bitcoin.conf /bitcoin/.bitcoin/bitcoin.conf']
           volumeMounts:
             - name: configmap
               mountPath: /configmap
             - name: config
               mountPath: /bitcoin/.bitcoin/
+          command: ['sh', '-c', 'cp /configmap/bitcoin.conf /bitcoin/.bitcoin/bitcoin.conf']
+        - name: copy-bitcoind-config
+          image: busybox
+          command: ['sh', '-c', '/tmp/setup-rpc.sh']
       {{- end }}
       containers:
         - name: {{ template "bitcoind.fullname" . }}
