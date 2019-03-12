@@ -34,7 +34,7 @@ RUN ls -al /tmp
 #
 COPY docker/start-bitcoind.sh /usr/local/bin/
 
-ENTRYPOINT ["./start-bitcoind.sh"]
+ENTRYPOINT ["start-bitcoind.sh"]
 
 #
 #RUN chmod +x start-bitcoind.sh
