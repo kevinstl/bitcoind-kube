@@ -14,6 +14,8 @@ RUN ls -al
 
 RUN wget https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py
 
+COPY rpcauth.py /bitcoin/.bitcoind/shared
+
 RUN ls -al
 
 
