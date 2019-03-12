@@ -1,7 +1,7 @@
 FROM arilot/docker-bitcoind
 
 
-RUN mkdir -p /bitcoin/.bitcoind/shared
+RUN mkdir -p /bitcoin/.bitcoin/shared
 
 #WORKDIR /bitcoin/.bitcoind/shared
 
@@ -12,11 +12,11 @@ RUN apt-get install -y wget python
 RUN pwd
 RUN ls -al
 
-#ADD https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py /bitcoin/.bitcoind/shared/
+ADD https://github.com/bitcoin/bitcoin/blob/master/share/rpcauth/rpcauth.py /bitcoin/.bitcoin/shared/
 
-#RUN chmod 755 rpcauth.py
+RUN chmod 755 /bitcoin/.bitcoin/shared/rpcauth.py
 
-COPY docker/rpcauth.py /bitcoin/.bitcoind/shared
+#COPY docker/rpcauth.py /bitcoin/.bitcoind/shared
 
 RUN ls -al
 
