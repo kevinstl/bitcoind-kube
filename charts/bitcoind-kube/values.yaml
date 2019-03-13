@@ -3,10 +3,10 @@
 # Declare variables to be passed into your templates.
 
 image:
-#  repository: arilot/docker-bitcoind
-  repository: 10.102.128.249:5000/kevinstl/bitcoind-kube
-#  tag: 0.15.1
-  tag: 0.0.6
+#  repository: 10.3.252.136:5000/kevinstl/bitcoind-kube
+  repository: 10.3.252.136:5000/kevinstl/bitcoind-kube
+#  tag: 0.0.24
+  tag: 0.0.24
   pullPolicy: IfNotPresent
 
 service:
