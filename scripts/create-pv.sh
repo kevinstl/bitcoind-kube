@@ -51,3 +51,4 @@ cat ${pvYaml} | sed "s/\X_NETWORK_SUFFIX_X/${networkSuffix}/" | sed "s/\X_STORAG
 #./create-pv.sh "" lightning-kube-regtest -regtest regtest 25Gi gke
 
 #./create-pv.sh "" lightning-kube-mainnet -mainnet mainnet 5Gi
+#./create-pv.sh "" lightning-kube-mainnet -mainnet mainnet 275Gi gke
