@@ -23,12 +23,18 @@ Requirments:
 ```
 *See [Lightning Kube](https://github.com/kevinstl/lightning-kube) for help with requirements.
 
-1. Clone this project. `git clone https://github.com/kevinstl/bitcoind-kube ~/Developer/projects/bitcoind-kube`
+1. Clone this project and the jx environment projects. 
+```
+git clone https://github.com/kevinstl/bitcoind-kube ~/Developer/projects/bitcoind-kube
+git clone https://github.com/kevinstl/environment-jx-lightning-kube-regtest
+git clone https://github.com/kevinstl/environment-jx-lightning-kube-testnet
+git clone https://github.com/kevinstl/environment-jx-lightning-kube-mainnet
+```
 2. Change to project directory `cd ~/Developer/projects/bitcoind-kube`
 3. Change the following variables in the [Jenkinsfile](./Jenkinsfile) to match your setup: ORG, APP_NAME, GITHUB_ADDRESS and ENV_REPO_PREFIX.
 4. Change to scripts directory `cd ~/Developer/projects/bitcoind-kube/scripts`
 5.  Add your persistent volume claim: `./create-pv.sh "" lightning-kube-mainnet -mainnet mainnet 275Gi gke` 
 6.  Add your secrets: `./create-secrets.sh minikube lightning-kube mainnet YOUR_MINING_ADDRESS YOUR_RPC_USER YOUR_RPC_PASSWORD` 
-7. Import this project into your Jenkins X instance. `jx import`
+7. Import this project and the jx environment projects into your Jenkins X instance. `jx import`
 
 If the installation is successful you should see the bitcoind pod running from [kubernetes dashboard](http://minikube-easy:30000/#!/pod?namespace=lightning-kube).
