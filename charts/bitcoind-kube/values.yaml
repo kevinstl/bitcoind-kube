@@ -3,10 +3,10 @@
 # Declare variables to be passed into your templates.
 
 image:
-#  repository: 10.102.128.249:5000/kevinstl/bitcoind-kube
-  repository: 10.102.128.249:5000/kevinstl/bitcoind-kube
-#  tag: 0.0.60
-  tag: 0.0.60
+#  repository: 10.3.252.136:5000/kevinstl/bitcoind-kube
+  repository: 10.3.252.136:5000/kevinstl/bitcoind-kube
+#  tag: 0.0.33
+  tag: 0.0.33
   pullPolicy: IfNotPresent
 
 service:
