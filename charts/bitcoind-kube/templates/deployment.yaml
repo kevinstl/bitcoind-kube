@@ -20,6 +20,15 @@ spec:
         app: {{ template "bitcoind.name" . }}
         release: {{ .Release.Name }}
     spec:
+
+      nodeSelector:
+        pool: cryptocurrency-services-pool-1
+      tolerations:
+        - key: cryptocurrency-services-pool-1
+          operator: Equal
+          value: "true"
+          effect: NoSchedule
+
       {{- if .Values.configurationFile }}
       initContainers:
         - name: copy-bitcoind-config
