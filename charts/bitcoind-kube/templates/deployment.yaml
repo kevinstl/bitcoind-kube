@@ -22,9 +22,9 @@ spec:
     spec:
 
       nodeSelector:
-        pool: cryptocurrency-services-pool-1
+        pool: bitcoind-4vcpu-1
       tolerations:
-        - key: cryptocurrency-services-pool-1
+        - key: bitcoind-4vcpu-1
           operator: Equal
           value: "true"
           effect: NoSchedule
