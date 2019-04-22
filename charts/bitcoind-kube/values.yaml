@@ -42,11 +42,11 @@ resources:
 #    memory: 512Mi
 #    cpu: 300m
   limits:
-    cpu: 100m
-    memory: 2048Mi
+    cpu: 500m
+    memory: 4096Mi
   requests:
-    cpu: 100m
-    memory: 2048Mi
+    cpu: 1000m
+    memory: 4096Mi
 
 # Custom bitcoind configuration file used to override default bitcoind settings
 configurationFile:
